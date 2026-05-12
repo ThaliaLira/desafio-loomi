@@ -11,9 +11,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-
+import com.loomi.desafiotech.orders.shared.exceptions.OrderNotFoundException;
 import java.time.OffsetDateTime;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import java.util.List;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -85,6 +88,36 @@ public class GlobalExceptionHandler {
                 List.of()
         );
     }
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleOrderNotFound(OrderNotFoundException exception) {
+        return buildResponse(
+                HttpStatus.NOT_FOUND,
+                "Order not found",
+                exception.getMessage(),
+                List.of()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException exception) {
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Invalid parameter",
+                "Invalid value for parameter: " + exception.getName(),
+                List.of("Expected type: " + exception.getRequiredType().getSimpleName())
+        );
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponse> handleMissingRequestParameter(MissingServletRequestParameterException exception) {
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Missing request parameter",
+                "Required parameter is missing: " + exception.getParameterName(),
+                List.of()
+        );
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception exception) {
@@ -95,6 +128,21 @@ public class GlobalExceptionHandler {
                 "Internal server error",
                 "An unexpected error occurred",
                 List.of()
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException exception) {
+        List<String> details = exception.getConstraintViolations()
+                .stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .toList();
+
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Validation error",
+                "Invalid request parameter",
+                details
         );
     }
 
@@ -115,5 +163,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(status)
                 .body(response);
+
+
     }
 }
