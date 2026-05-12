@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubscriptionOrderItemProcessor implements OrderItemProcessor {
 
-    private static final Logger log = LoggerFactory.getLogger(SubscriptionOrderItemProcessor.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(SubscriptionOrderItemProcessor.class);
 
     @Override
     public ProductType supports() {
@@ -21,27 +22,44 @@ public class SubscriptionOrderItemProcessor implements OrderItemProcessor {
 
     @Override
     public void process(Order order, OrderItem item) {
-        boolean hasBasicAndEnterprise = order.getItems()
+
+        long subscriptionCount = order.getItems()
                 .stream()
-                .filter(orderItem -> orderItem.getProductType() == ProductType.SUBSCRIPTION)
-                .map(OrderItem::getProductId)
-                .anyMatch(productId -> productId.equals("SUB-BASIC-001"))
-                &&
+                .filter(i -> i.getProductType() == ProductType.SUBSCRIPTION)
+                .count();
+
+        if (subscriptionCount > 5) {
+
+            throw new OrderProcessingException(
+                    Failure.SUBSCRIPTION_LIMIT_EXCEEDED,
+                    "Customer exceeded subscription limit"
+            );
+        }
+
+        boolean hasBasic =
                 order.getItems()
                         .stream()
-                        .filter(orderItem -> orderItem.getProductType() == ProductType.SUBSCRIPTION)
-                        .map(OrderItem::getProductId)
-                        .anyMatch(productId -> productId.equals("SUB-ENTERPRISE-001"));
+                        .anyMatch(i ->
+                                "SUB-BASIC-001".equals(i.getProductId())
+                        );
 
-        if (hasBasicAndEnterprise) {
+        boolean hasEnterprise =
+                order.getItems()
+                        .stream()
+                        .anyMatch(i ->
+                                "SUB-ENTERPRISE-001".equals(i.getProductId())
+                        );
+
+        if (hasBasic && hasEnterprise) {
+
             throw new OrderProcessingException(
                     Failure.INCOMPATIBLE_SUBSCRIPTIONS,
-                    "Customer cannot have Basic and Enterprise subscriptions in the same order"
+                    "Basic and Enterprise plans are incompatible"
             );
         }
 
         log.info(
-                "Subscription item processed. orderId={}, productId={}",
+                "Subscription processed. orderId={}, productId={}",
                 order.getId(),
                 item.getProductId()
         );

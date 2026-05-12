@@ -59,6 +59,24 @@ public class Product {
     updatedAt = now;
     }
 
+    public void decreaseStock(Integer quantity) {
+
+        if (stockQuantity == null) {
+            return;
+        }
+
+        this.stockQuantity -= quantity;
+    }
+
+    public void increaseStock(Integer quantity) {
+
+        if (stockQuantity == null) {
+            return;
+        }
+
+        this.stockQuantity += quantity;
+    }
+
     @PreUpdate
     public void preUpdate() {
     updatedAt = LocalDateTime.now();

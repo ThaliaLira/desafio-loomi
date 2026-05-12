@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PhysicalOrderItemProcessor implements OrderItemProcessor {
 
-    private static final Logger log = LoggerFactory.getLogger(PhysicalOrderItemProcessor.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(PhysicalOrderItemProcessor.class);
 
     private final ProductRepository productRepository;
 
@@ -29,31 +30,41 @@ public class PhysicalOrderItemProcessor implements OrderItemProcessor {
 
     @Override
     public void process(Order order, OrderItem item) {
-        Product product = productRepository.findByProductId(item.getProductId())
-                .orElseThrow(() -> new OrderProcessingException(
-                        Failure.PRODUCT_NOT_AVAILABLE,
-                        "Product " + item.getProductId() + " not found during physical processing"
-                ));
 
-        Integer stockQuantity = product.getStockQuantity();
+        Product product = productRepository
+                .findByProductId(item.getProductId())
+                .orElseThrow(() ->
+                        new OrderProcessingException(
+                                Failure.PRODUCT_NOT_AVAILABLE,
+                                "Product not found"
+                        )
+                );
 
-        if (stockQuantity == null || stockQuantity < item.getQuantity()) {
+        Integer stock = product.getStockQuantity();
+
+        if (stock == null || stock < item.getQuantity()) {
+
             throw new OrderProcessingException(
                     Failure.OUT_OF_STOCK,
-                    "Insufficient stock for product " + item.getProductId()
+                    "Insufficient stock"
             );
         }
 
-        if (stockQuantity < 5) {
+        product.decreaseStock(item.getQuantity());
+
+        productRepository.save(product);
+
+        if (product.getStockQuantity() < 5) {
+
             log.warn(
-                    "Low stock alert. productId={}, currentStock={}",
-                    item.getProductId(),
-                    stockQuantity
+                    "LOW STOCK ALERT -> productId={}, stock={}",
+                    product.getProductId(),
+                    product.getStockQuantity()
             );
         }
 
         log.info(
-                "Physical item processed. orderId={}, productId={}, quantity={}",
+                "Physical product processed. orderId={}, productId={}, quantity={}",
                 order.getId(),
                 item.getProductId(),
                 item.getQuantity()

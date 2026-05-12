@@ -24,11 +24,11 @@ public class OrderEventProducer {
     }
 
     public void publishOrderCreated(Order order) {
-        com.loomi.desafiotech.orders.events.producer.OrderCreatedEvent event = new com.loomi.desafiotech.orders.events.producer.OrderCreatedEvent(
+        com.loomi.desafiotech.orders.domain.event.producer.OrderCreatedEvent event = new com.loomi.desafiotech.orders.domain.event.producer.OrderCreatedEvent(
                 UUID.randomUUID(),
                 "ORDER_CREATED",
                 OffsetDateTime.now(),
-                new com.loomi.desafiotech.orders.events.producer.OrderCreatedPayload(
+                new com.loomi.desafiotech.orders.domain.event.producer.OrderCreatedPayload(
                         order.getId(),
                         order.getCustomerId(),
                         order.getTotalAmount()
