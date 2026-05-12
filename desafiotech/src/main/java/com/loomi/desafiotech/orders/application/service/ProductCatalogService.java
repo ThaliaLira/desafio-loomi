@@ -3,6 +3,8 @@ package com.loomi.desafiotech.orders.application.service;
 
 import com.loomi.desafiotech.orders.domain.model.Product;
 import com.loomi.desafiotech.orders.infrastructure.repository.ProductRepository;
+import com.loomi.desafiotech.orders.shared.exceptions.ProductNotAvailableException;
+import com.loomi.desafiotech.orders.shared.exceptions.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +19,10 @@ public class ProductCatalogService {
 
     public Product getAvailableProductByProductId(String productId) {
         Product product = productRepository.findByProductId(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product " + productId + " not found"));
+                .orElseThrow(() -> new ProductNotFoundException(productId));
 
         if (!Boolean.TRUE.equals(product.getActive())) {
-            throw new IllegalArgumentException("Product " + productId + " is not available");
+            throw new ProductNotAvailableException(productId);
         }
 
         return product;
