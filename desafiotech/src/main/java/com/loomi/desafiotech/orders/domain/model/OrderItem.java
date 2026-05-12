@@ -1,7 +1,7 @@
-package orders.domain.model;
+package com.loomi.desafiotech.orders.domain.model;
 
 import jakarta.persistence.*;
-import orders.domain.enums.ProductType;
+import com.loomi.desafiotech.orders.domain.enums.ProductType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ public class OrderItem {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_type", nullable = false, length = 30)
-    private orders.domain.enums.ProductType productType;
+    private ProductType productType;
 
     @Column(nullable = false)
     private Integer quantity;

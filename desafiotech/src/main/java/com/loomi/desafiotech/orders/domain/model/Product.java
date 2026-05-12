@@ -1,8 +1,6 @@
-package orders.domain.model;
+package com.loomi.desafiotech.orders.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import orders.domain.enums.ProductType;
+import com.loomi.desafiotech.orders.domain.enums.ProductType;
 
 import java.math.BigDecimal;
 

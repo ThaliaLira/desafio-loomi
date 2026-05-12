@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE TABLE products (
                           id UUID PRIMARY KEY,
                           product_id VARCHAR(50) NOT NULL UNIQUE,

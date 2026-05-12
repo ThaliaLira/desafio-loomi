@@ -1,4 +1,4 @@
-package orders.domain.enums;
+package com.loomi.desafiotech.orders.domain.enums;
 
 public enum OrderStatus {
     PENDING,

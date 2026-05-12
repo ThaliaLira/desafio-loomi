@@ -1,9 +1,9 @@
-package orders.domain.model;
+package com.loomi.desafiotech.orders.domain.model;
 
 
 import jakarta.persistence.*;
-import orders.domain.enums.Failure;
-import orders.domain.enums.OrderStatus;
+import com.loomi.desafiotech.orders.domain.enums.Failure;
+import com.loomi.desafiotech.orders.domain.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
