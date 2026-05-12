@@ -1,0 +1,319 @@
+{
+  "info": {
+    "name": "Loomi Order Processing API",
+    "_postman_id": "8f8e90e5-b2b1-4f49-9d9e-a8b3c1b7d001",
+    "description": "Collection com cenários principais da API de processamento de pedidos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "POST - Physical Order Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-physical-001\",\n  \"items\": [\n    {\n      \"productId\": \"BOOK-CC-001\",\n      \"quantity\": 2,\n      \"metadata\": {\n        \"warehouseLocation\": \"SP\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Digital Order Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-digital-001\",\n  \"items\": [\n    {\n      \"productId\": \"EBOOK-JAVA-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"format\": \"PDF\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Digital Product Already Owned",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-digital-001\",\n  \"items\": [\n    {\n      \"productId\": \"EBOOK-JAVA-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"format\": \"PDF\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Subscription Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-sub-001\",\n  \"items\": [\n    {\n      \"productId\": \"SUB-PREMIUM-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"billingCycle\": \"MONTHLY\",\n        \"autoRenewal\": true\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Subscription Incompatible Plans",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-sub-002\",\n  \"items\": [\n    {\n      \"productId\": \"SUB-BASIC-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"billingCycle\": \"MONTHLY\"\n      }\n    },\n    {\n      \"productId\": \"SUB-ENTERPRISE-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"billingCycle\": \"ANNUAL\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Pre Order Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-pre-001\",\n  \"items\": [\n    {\n      \"productId\": \"PRE-PS6-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"releaseDate\": \"2027-11-15\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Pre Order Invalid Release Date",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-pre-002\",\n  \"items\": [\n    {\n      \"productId\": \"PRE-PS6-001\",\n      \"quantity\": 1,\n      \"metadata\": {\n        \"releaseDate\": \"2020-01-01\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Corporate Pending Approval",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"company-acme\",\n  \"items\": [\n    {\n      \"productId\": \"CORP-LICENSE-ENT\",\n      \"quantity\": 5,\n      \"metadata\": {\n        \"cnpj\": \"12.345.678/0001-90\",\n        \"paymentTerms\": \"NET_60\"\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Product Not Found",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"customer-error-001\",\n  \"items\": [\n    {\n      \"productId\": \"INVALID-PRODUCT\",\n      \"quantity\": 1,\n      \"metadata\": {}\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST - Invalid Payload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"\",\n  \"items\": []\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET - Order By Id",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET - Orders By Customer",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/orders?customerId=customer-physical-001",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ],
+          "query": [
+            {
+              "key": "customerId",
+              "value": "customer-physical-001"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

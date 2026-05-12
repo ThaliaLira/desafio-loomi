@@ -1,11 +1,9 @@
 package com.loomi.desafiotech.orders.domain.model;
 
 import com.loomi.desafiotech.orders.domain.enums.ProductType;
-
-import java.math.BigDecimal;
-
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -47,20 +45,48 @@ public class Product {
     protected Product() {
     }
 
-    @PrePersist
-    public void prePersist() {
-    LocalDateTime now = LocalDateTime.now();
-
-    if (id == null) {
-    id = UUID.randomUUID();
+    public Product(
+            String productId,
+            String name,
+            ProductType productType,
+            BigDecimal price,
+            Integer stockQuantity,
+            Boolean active,
+            String metadata
+    ) {
+        this.id = UUID.randomUUID();
+        this.productId = productId;
+        this.name = name;
+        this.productType = productType;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.active = active;
+        this.metadata = metadata;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    createdAt = now;
-    updatedAt = now;
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+
+        if (createdAt == null) {
+            createdAt = now;
+        }
+
+        updatedAt = now;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     public void decreaseStock(Integer quantity) {
-
         if (stockQuantity == null) {
             return;
         }
@@ -69,7 +95,6 @@ public class Product {
     }
 
     public void increaseStock(Integer quantity) {
-
         if (stockQuantity == null) {
             return;
         }
@@ -77,33 +102,43 @@ public class Product {
         this.stockQuantity += quantity;
     }
 
-    @PreUpdate
-    public void preUpdate() {
-    updatedAt = LocalDateTime.now();
+    public UUID getId() {
+        return id;
     }
 
     public String getProductId() {
-    return productId;
+        return productId;
     }
 
     public String getName() {
-    return name;
+        return name;
     }
 
     public ProductType getProductType() {
-    return productType;
+        return productType;
     }
 
     public BigDecimal getPrice() {
-    return price;
+        return price;
     }
 
     public Integer getStockQuantity() {
-    return stockQuantity;
+        return stockQuantity;
     }
 
     public Boolean getActive() {
-    return active;
+        return active;
     }
 
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

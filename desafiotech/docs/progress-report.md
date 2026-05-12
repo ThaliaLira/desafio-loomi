@@ -112,3 +112,59 @@ A solução foi construída priorizando:
 - organização
 - facilidade de execução
 - aderência ao escopo
+
+Durante o desenvolvimento inicial do projeto, os commits foram realizados diretamente na branch main enquanto o ambiente, a infraestrutura e a base da aplicação estavam sendo estabilizados.
+
+Devido ao prazo reduzido do desafio e ao tempo investido na resolução de problemas de setup e configuração, optei por priorizar a evolução contínua da aplicação e a entrega funcional do fluxo principal do sistema.
+
+Apesar disso, mantive a preocupação com organização dos commits, utilização de conventional commits e separação lógica das funcionalidades implementadas ao longo do desenvolvimento.
+
+
+---
+
+# Ajustes de Ambiente Durante o Desenvolvimento
+
+Durante o desenvolvimento foram encontrados alguns problemas relacionados ao ambiente local, principalmente envolvendo:
+
+- Docker Desktop
+- portas já utilizadas
+- comunicação entre containers
+- configuração do Redpanda/Kafka
+- diferenças entre host local e rede Docker
+
+---
+
+# Conflito de Porta
+
+Durante a execução local da aplicação foi identificado conflito na porta padrão:
+
+```text
+8080
+```
+
+Para evitar impacto no desenvolvimento e permitir debugging contínuo, a aplicação local passou a utilizar a porta alternativa:
+
+```text
+http://localhost:8081
+```
+
+Essa alteração foi aplicada apenas no ambiente local via IntelliJ.
+
+A execução oficial via Docker Compose continua utilizando:
+
+```text
+http://localhost:8080
+```
+
+---
+
+# Estratégia Adotada
+
+Considerando o prazo reduzido do desafio, a prioridade foi manter:
+
+- evolução contínua do sistema
+- estabilidade do ambiente
+- funcionamento do fluxo principal
+- consistência arquitetural
+
+Mesmo durante ajustes de infraestrutura e configuração.

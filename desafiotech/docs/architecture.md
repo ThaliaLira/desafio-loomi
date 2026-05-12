@@ -342,3 +342,66 @@ O foco foi:
 - Segurança
 - CI/CD
 - Tracing distribuído
+
+---
+
+# Execução da Aplicação
+
+A aplicação pode ser executada de duas formas:
+
+## Docker Compose
+
+Execução completa contendo:
+
+- aplicação Spring Boot
+- PostgreSQL
+- Redpanda/Kafka
+
+Comando:
+
+```bash
+docker compose up --build
+```
+
+Endpoint principal:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## Execução Local via IntelliJ
+
+Durante o desenvolvimento, parte dos testes e debugging foram realizados diretamente pelo IntelliJ.
+
+Nesse cenário:
+
+- PostgreSQL e Redpanda permanecem containerizados
+- aplicação Spring Boot executa localmente
+
+Comando de infraestrutura:
+
+```bash
+docker compose up -d postgres redpanda
+```
+
+---
+
+# Porta Alternativa Local
+
+Em alguns momentos do desenvolvimento houve conflito local na porta `8080`.
+
+Para evitar interrupções durante debugging e execução local, a aplicação também foi configurada para utilizar:
+
+```text
+http://localhost:8081
+```
+
+Essa alteração impacta apenas execuções locais via IDE.
+
+A execução padrão documentada do projeto permanece utilizando:
+
+```text
+http://localhost:8080
+```
