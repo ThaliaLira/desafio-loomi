@@ -2,7 +2,7 @@ package com.loomi.desafiotech.orders.application.service;
 
 
 import com.loomi.desafiotech.orders.domain.model.Product;
-import com.loomi.desafiotech.orders.infraestructure.repository.ProductRepository;
+import com.loomi.desafiotech.orders.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 @Service

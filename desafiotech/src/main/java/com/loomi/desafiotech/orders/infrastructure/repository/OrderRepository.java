@@ -1,4 +1,4 @@
-package com.loomi.desafiotech.orders.infraestructure.repository;
+package com.loomi.desafiotech.orders.infrastructure.repository;
 
 import com.loomi.desafiotech.orders.domain.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
